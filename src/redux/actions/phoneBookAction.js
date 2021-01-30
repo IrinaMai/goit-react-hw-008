@@ -1,16 +1,28 @@
 import { v4 as uuidv4 } from 'uuid';
-import {ADDCONTACT, ADDFILTER } from '../constant/phoneBookConst'
+// import {ADDCONTACT, ADDFILTER, DELETECONTACT } from '../constant/phoneBookConst'
+import { createAction } from '@reduxjs/toolkit';
 
-
-
-const addContact = (contact) => ({
-    type: ADDCONTACT,
+const filterHndl = createAction("@phoneBook/addFilter");
+const deletBtnHndl = createAction("@phoneBook/dltContact");
+const addContact = createAction("@phoneBook/addContact", (contact) => ({
     payload: { ...contact, id: uuidv4() }
-});
+}));
 
-const filterHndl = (search) => ({
-    type: ADDFILTER,
-    payload: search
-})
+export {addContact, filterHndl, deletBtnHndl} ;
 
-export {addContact, filterHndl} ;
+// const addContact = (contact) => ({
+//     type: ADDCONTACT,
+//     payload: { ...contact, id: uuidv4() }
+// });
+
+// const filterHndl = (search) => ({
+//     type: ADDFILTER,
+//     payload: search
+// })
+
+// const deletBtnHndl = (dltId) => ({
+//     type: DELETECONTACT,
+//     payload: dltId
+// })
+
+// export {addContact, filterHndl, deletBtnHndl} ;

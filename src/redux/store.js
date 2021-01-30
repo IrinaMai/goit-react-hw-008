@@ -1,8 +1,21 @@
-import { createStore } from 'redux';
-import {composeWithDevTools} from 'redux-devtools-extension'
-import phonebookReducer from './reducers/phonebookReducer';
+import {configureStore} from '@reduxjs/toolkit'
+// import phonebookReducer from './reducers/phonebookReducer';
+import { phBookReducer  } from "./reducers/phonebookReducer";
+
+const store = configureStore({
+    reducer: phBookReducer,
+})
+
+ export default store;
 
 
-const store = createStore(phonebookReducer, composeWithDevTools());
+// ==============================================================
+// import { createStore } from 'redux';
+// import { composeWithDevTools } from 'redux-devtools-extension'
+// import {configureStore} from '@reduxjs/toolkit'
+// import phonebookReducer from './reducers/phonebookReducer';
 
-export default store;
+
+// const store = createStore(phonebookReducer, composeWithDevTools());
+
+// export default store;

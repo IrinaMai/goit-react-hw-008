@@ -75,3 +75,8 @@ textarea,
 select {
   font: inherit;
 }
+#root{
+  width: 500px;
+  margin: 15px auto;
+  position: relative;
+}
