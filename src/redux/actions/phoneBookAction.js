@@ -4,11 +4,14 @@ import { createAction } from '@reduxjs/toolkit';
 
 const filterHndl = createAction("@phoneBook/addFilter");
 const deletBtnHndl = createAction("@phoneBook/dltContact");
+const getContactFromLS = createAction("@phoneBook/getContactsFromLS", (listLS) => ({
+    payload: [...listLS]
+}));
 const addContact = createAction("@phoneBook/addContact", (contact) => ({
     payload: { ...contact, id: uuidv4() }
 }));
 
-export {addContact, filterHndl, deletBtnHndl} ;
+export {addContact, filterHndl, deletBtnHndl, getContactFromLS} ;
 
 // const addContact = (contact) => ({
 //     type: ADDCONTACT,

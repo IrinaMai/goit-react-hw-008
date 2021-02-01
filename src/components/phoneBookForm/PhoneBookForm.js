@@ -17,10 +17,7 @@ const initialState = {
 const PhoneBookForm = ({ addContact, contactList }) => {
     const [contact, setContact] = useState({ ...initialState });
 
-    useEffect(() => {
-        localStorage.setItem('contacts', JSON.stringify(contactList))
-    }, [contactList])
-
+  
     const onContactSubmit = (e) => {
         e.preventDefault();
         if (contactList.some(({ name }) => contact.name === name)) {

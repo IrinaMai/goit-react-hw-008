@@ -1,32 +1,28 @@
 import React, {useEffect} from 'react';
 import { connect } from "react-redux";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { filterHndl, deletBtnHndl, addContact } from '../../redux/actions/phoneBookAction';
+import { filterHndl, deletBtnHndl, getContactFromLS} from '../../redux/actions/phoneBookAction';
 import { title, input, label, button, list, listItem, nameItem, filter } from './ContactList.module.css';
 import fadeStyle from './fadeStyle.module.css';
 
 
+const ContactList = ({ showList, filterHndl, contacts, deletBtnHndl, getContactFromLS }) => {
+      useEffect(() => {
+        if (localStorage.getItem('contacts')) {
+            const listLS = localStorage.getItem('contacts');
+            getContactFromLS(JSON.parse(listLS));
+        }
+    }, [])
 
-
-const ContactList = ({ contactList, filterHndl, contacts, deletBtnHndl, addContact }) => {
-        const onFilterChng = (e) => {
+    const onFilterChng = (e) => {
         filterHndl(e.target.value);
-    }
+    };
+
     const onDeletBtn = (e) => {
-        deletBtnHndl(e.target.id)
-    }
-    // useEffect(() => {
-    // const lsList = localStorage.getItem('contacts')
-    //     if (lsList) {
-    //          addContact(JSON.parse(lsList))
-    //     }
-    // }, [])
+        deletBtnHndl(e.target.id);
+            
+    };
 
-
-    useEffect(() => {
-       
-        localStorage.setItem('contacts', JSON.stringify(contacts))
-    }, [contacts])
     
     return (
         <>
@@ -37,7 +33,7 @@ const ContactList = ({ contactList, filterHndl, contacts, deletBtnHndl, addConta
  
             <h2 className={title}>Contact list </h2>
              <TransitionGroup component="ul" className={list}>
-                {contactList.map(({ id, name, phone }) =>
+                {showList.map(({ id, name, phone }) =>
                 <CSSTransition
                 timeout={250}
                 classNames={fadeStyle}
@@ -54,10 +50,15 @@ const ContactList = ({ contactList, filterHndl, contacts, deletBtnHndl, addConta
         
     );
 }
+// const getValue = (showList) => {
+//     return (showList.length > 1) ? state.filter : ''
+// }
 
 const mapStateToProps = (state) => {
     return {
-        contactList: state.contactList.filter(item => item.name.toLowerCase().includes(state.filter.toLowerCase())),
+        showList: state.contactList.filter(item => item.name.toLowerCase().includes(state.filter.toLowerCase())),
+        // filter: (contactList.length >1) ? state.filter : '',
+        // filter: getValue(state),
         filter: state.filter,
         contacts: state.contactList,
     }
@@ -66,7 +67,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         filterHndl: (search) => dispatch(filterHndl(search)),
-        deletBtnHndl: (dltId) => dispatch(deletBtnHndl(dltId))
+        deletBtnHndl: (dltId) => dispatch(deletBtnHndl(dltId)),
+        getContactFromLS: (listLS) => dispatch(getContactFromLS(listLS))
     }
 }
 
