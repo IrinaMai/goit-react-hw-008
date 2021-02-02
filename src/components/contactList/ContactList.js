@@ -37,11 +37,10 @@ const ContactList = ({
   }, []);
 
   useEffect(() => {
-    if (showList.length < 1) {
+    if (contacts.length <= 2) {
       filterHndl('');
-      //   setFilter(initialFilter);
     }
-  }, [showList.length]);
+  }, [contacts.length]);
 
   const onFilterChng = e => {
     filterHndl(e.target.value);
