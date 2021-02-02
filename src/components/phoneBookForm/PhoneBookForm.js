@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState} from 'react';
 import { connect } from "react-redux";
 import { CSSTransition } from 'react-transition-group';
 import { addContact } from "../../redux/actions/phoneBookAction";
