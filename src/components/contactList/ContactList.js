@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import {
-  filterClear,
-  filterHndl,
-  loading,
-} from '../../redux/actions/phoneBookAction';
+import { filterClear, filterHndl } from '../../redux/actions/phoneBookAction';
 import Loader from 'react-loader-spinner';
-import {
-  deleteContactById,
-  getContactsFromDB,
-} from '../../redux/operations/phBookOperation';
+import { deleteContactById } from '../../redux/operations/phBookOperation';
 import {
   filteredList,
   getConctactList,
   getIsLoading,
-  getTtlState,
 } from '../../redux/selectors/phBookSelectors';
 import {
   title,
@@ -32,14 +24,13 @@ import fadeStyle from './fadeStyle.module.css';
 
 const ContactList = () => {
   const isLoading = useSelector(getIsLoading);
-  const state = useSelector(getTtlState);
   const myList = useSelector(filteredList);
   const contactList = useSelector(getConctactList);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(filterClear());
-  }, [contactList.length < 2]);
+  }, [contactList.length <= 2]);
 
   const onFilterChng = e => {
     dispatch(filterHndl(e.target.value));
@@ -68,7 +59,7 @@ const ContactList = () => {
       {isLoading && (
         <Loader
           type="TailSpin"
-          color="#00BFFF"
+          color="#6699FF"
           height={30}
           width={30}
           className={loader}

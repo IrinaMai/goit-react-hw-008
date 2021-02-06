@@ -1,5 +1,4 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-// import { checkNewContactMdlw } from './middleWare/checkNewContactMdlw';
 import { phBookReducer } from './reducers/phonebookReducer';
 
 const defaultMiddleware = getDefaultMiddleware();

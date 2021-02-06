@@ -9,22 +9,16 @@ const addContactSuccess = createAction(
     payload: { ...contact },
   }),
 );
-const addContactError = createAction('@phoneBook/addContactError');
 const getContactSuccess = createAction('@phoneBook/getContactSuccess');
-const getContactError = createAction('@phoneBook/getContactError');
 const deleteContactSuccess = createAction('@phoneBook/deleteContactSuccess');
-const deleteContactError = createAction('@phoneBook/deleteContactError');
-const deleteError = createAction('@phoneBook/deleteError');
+const setError = createAction('@phoneBook/setError');
 
 export {
   loading,
-  addContactSuccess,
-  addContactError,
-  getContactSuccess,
-  getContactError,
   filterHndl,
   filterClear,
+  addContactSuccess,
+  getContactSuccess,
   deleteContactSuccess,
-  deleteContactError,
-  deleteError,
+  setError,
 };

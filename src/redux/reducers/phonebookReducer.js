@@ -2,14 +2,11 @@ import { createReducer } from '@reduxjs/toolkit';
 import {
   loading,
   addContactSuccess,
-  addContactError,
   filterHndl,
   filterClear,
   getContactSuccess,
-  getContactError,
   deleteContactSuccess,
-  deleteContactError,
-  deleteError,
+  setError,
 } from '../actions/phoneBookAction';
 
 const initialState = {
@@ -31,18 +28,11 @@ export const phBookReducer = createReducer(
       ...state,
       contactList: [...state.contactList, action.payload],
     }),
-    [addContactError]: (state, action) => ({
-      ...state,
-      error: action.payload,
-    }),
     [getContactSuccess]: (state, action) => ({
       ...state,
       contactList: [...action.payload],
     }),
-    [getContactError]: (state, action) => ({
-      ...state,
-      error: action.payload,
-    }),
+
     [filterHndl]: (state, action) => ({ ...state, filter: action.payload }),
     [filterClear]: (state, action) => ({ ...state, filter: '' }),
     [deleteContactSuccess]: (state, action) => ({
@@ -51,13 +41,9 @@ export const phBookReducer = createReducer(
         ...state.contactList.filter(item => item.id !== action.payload),
       ],
     }),
-    [deleteContactError]: (state, action) => ({
+    [setError]: (state, action) => ({
       ...state,
       error: action.payload,
-    }),
-    [deleteError]: (state, action) => ({
-      ...state,
-      error: '',
     }),
   },
 );

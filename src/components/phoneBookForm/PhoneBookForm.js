@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
+import { addContactToDB } from '../../redux/operations/phBookOperation';
+import {
+  getConctactList,
+  getError,
+} from '../../redux/selectors/phBookSelectors';
+import { setError } from '../../redux/actions/phoneBookAction';
 import {
   title,
   button,
@@ -10,16 +16,6 @@ import {
   alertMessage,
 } from './PhoneBookForm.module.css';
 import fadeStyled from './fade.module.css';
-import { addContactToDB } from '../../redux/operations/phBookOperation';
-import {
-  getConctactList,
-  getError,
-  getIsLoading,
-} from '../../redux/selectors/phBookSelectors';
-import {
-  addContactError,
-  deleteError,
-} from '../../redux/actions/phoneBookAction';
 
 const initialState = {
   name: '',
@@ -36,9 +32,9 @@ const PhoneBookForm = () => {
   const onContactSubmit = e => {
     e.preventDefault();
     if (!contact.name || !contact.phone) {
-      dispatch(addContactError('All fields should be complited'));
+      dispatch(setError('All fields should be complited'));
       setTimeout(() => {
-        dispatch(deleteError());
+        dispatch(setError(''));
       }, 1500);
       return;
     }
@@ -47,16 +43,16 @@ const PhoneBookForm = () => {
         ({ name }) => name.toLowerCase() === contact.name.toLowerCase(),
       )
     ) {
-      dispatch(addContactError('This name already exist'));
+      dispatch(setError('This name already exist'));
       setTimeout(() => {
-        dispatch(deleteError());
+        dispatch(setError(''));
       }, 1500);
       return;
     }
     if (contactList.find(({ phone }) => phone == contact.phone)) {
-      dispatch(addContactError('This phone belongs another contact'));
+      dispatch(setError('This phone belongs another contact'));
       setTimeout(() => {
-        dispatch(deleteError());
+        dispatch(setError(''));
       }, 1500);
       return;
     }
