@@ -1,47 +1,63 @@
-// import { ADDCONTACT, ADDFILTER, DELETECONTACT, } from "../constant/phoneBookConst";
 import { createReducer } from '@reduxjs/toolkit';
-import {addContact, filterHndl, deletBtnHndl, getContactFromLS} from "../actions/phoneBookAction";
+import {
+  loading,
+  addContactSuccess,
+  addContactError,
+  filterHndl,
+  filterClear,
+  getContactSuccess,
+  getContactError,
+  deleteContactSuccess,
+  deleteContactError,
+  deleteError,
+} from '../actions/phoneBookAction';
 
 const initialState = {
-    contactList: [],
-    filter: '',
-}
+  contactList: [],
+  filter: '',
+  isLoading: false,
+  error: '',
+};
 
-export const phBookReducer = createReducer({...initialState}, {
-    [addContact]: (state, action) => {
-        localStorage.setItem('contacts', JSON.stringify([...state.contactList, action.payload]))
-    return { ...state, contactList: [...state.contactList, action.payload]
-        }
-    },
-    
-    [getContactFromLS]: (state, action) => ({ ...state, contactList: [...action.payload] }),
-    
+export const phBookReducer = createReducer(
+  { ...initialState },
+  {
+    [loading]: state => ({
+      ...state,
+      isLoading: !state.isLoading,
+    }),
+
+    [addContactSuccess]: (state, action) => ({
+      ...state,
+      contactList: [...state.contactList, action.payload],
+    }),
+    [addContactError]: (state, action) => ({
+      ...state,
+      error: action.payload,
+    }),
+    [getContactSuccess]: (state, action) => ({
+      ...state,
+      contactList: [...action.payload],
+    }),
+    [getContactError]: (state, action) => ({
+      ...state,
+      error: action.payload,
+    }),
     [filterHndl]: (state, action) => ({ ...state, filter: action.payload }),
-
-    [deletBtnHndl]: (state, action) => {
-        localStorage.setItem('contacts', JSON.stringify([...state.contactList.filter(({ id }) => id !== action.payload)]))
-    return { ...state, contactList: [...state.contactList.filter(({ id }) => id !== action.payload)]
-    }},
-})
-
-
-
-
-
-// const phonebookReducer = (state = { ...initialState }, action) => {
-//     switch (action.type) {
-//         case addContact.type:
-//             return { ...state, contactList: [...state.contactList, action.payload] };
-        
-//         case filterHndl.type:
-//             return { ...state, filter: action.payload };
-        
-//         case deletBtnHndl.type:
-//             return { ...state, contactList: [...state.contactList.filter(({id}) => id!==action.payload)]};
-
-//         default:
-//             return state;
-//     }
-
-// }
-// export default phonebookReducer;
+    [filterClear]: (state, action) => ({ ...state, filter: '' }),
+    [deleteContactSuccess]: (state, action) => ({
+      ...state,
+      contactList: [
+        ...state.contactList.filter(item => item.id !== action.payload),
+      ],
+    }),
+    [deleteContactError]: (state, action) => ({
+      ...state,
+      error: action.payload,
+    }),
+    [deleteError]: (state, action) => ({
+      ...state,
+      error: '',
+    }),
+  },
+);

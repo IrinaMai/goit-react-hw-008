@@ -1,31 +1,30 @@
-import { v4 as uuidv4 } from 'uuid';
-// import {ADDCONTACT, ADDFILTER, DELETECONTACT } from '../constant/phoneBookConst'
 import { createAction } from '@reduxjs/toolkit';
 
-const filterHndl = createAction("@phoneBook/addFilter");
-const deletBtnHndl = createAction("@phoneBook/dltContact");
-const getContactFromLS = createAction("@phoneBook/getContactsFromLS", (listLS) => ({
-    payload: [...listLS]
-}));
-const addContact = createAction("@phoneBook/addContact", (contact) => ({
-    payload: { ...contact, id: uuidv4() }
-}));
+const filterHndl = createAction('@phoneBook/addFilter');
+const filterClear = createAction('@phoneBook/clearFilter');
+const loading = createAction('@phoneBook/loading');
+const addContactSuccess = createAction(
+  '@phoneBook/addContactSuccess',
+  contact => ({
+    payload: { ...contact },
+  }),
+);
+const addContactError = createAction('@phoneBook/addContactError');
+const getContactSuccess = createAction('@phoneBook/getContactSuccess');
+const getContactError = createAction('@phoneBook/getContactError');
+const deleteContactSuccess = createAction('@phoneBook/deleteContactSuccess');
+const deleteContactError = createAction('@phoneBook/deleteContactError');
+const deleteError = createAction('@phoneBook/deleteError');
 
-export {addContact, filterHndl, deletBtnHndl, getContactFromLS} ;
-
-// const addContact = (contact) => ({
-//     type: ADDCONTACT,
-//     payload: { ...contact, id: uuidv4() }
-// });
-
-// const filterHndl = (search) => ({
-//     type: ADDFILTER,
-//     payload: search
-// })
-
-// const deletBtnHndl = (dltId) => ({
-//     type: DELETECONTACT,
-//     payload: dltId
-// })
-
-// export {addContact, filterHndl, deletBtnHndl} ;
+export {
+  loading,
+  addContactSuccess,
+  addContactError,
+  getContactSuccess,
+  getContactError,
+  filterHndl,
+  filterClear,
+  deleteContactSuccess,
+  deleteContactError,
+  deleteError,
+};

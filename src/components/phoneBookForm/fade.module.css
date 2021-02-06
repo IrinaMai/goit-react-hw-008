@@ -14,3 +14,9 @@
     opacity: 0;
     transition: all 250ms ease-in-out;
 }
+.error {
+    display: block;
+    width: 250px;
+    height: 75px;
+    background-color: aquamarine;
+}

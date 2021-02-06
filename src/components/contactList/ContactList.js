@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {
+  filterClear,
   filterHndl,
-  deletBtnHndl,
-  getContactFromLS,
+  loading,
 } from '../../redux/actions/phoneBookAction';
+import Loader from 'react-loader-spinner';
+import {
+  deleteContactById,
+  getContactsFromDB,
+} from '../../redux/operations/phBookOperation';
+import {
+  filteredList,
+  getConctactList,
+  getIsLoading,
+  getTtlState,
+} from '../../redux/selectors/phBookSelectors';
 import {
   title,
   input,
@@ -15,44 +26,32 @@ import {
   listItem,
   nameItem,
   filter,
+  loader,
 } from './ContactList.module.css';
 import fadeStyle from './fadeStyle.module.css';
 
-const initialFilter = '';
-
-const ContactList = ({
-  showList,
-  filterHndl,
-  contacts,
-  deletBtnHndl,
-  getContactFromLS,
-}) => {
-  //   const [filter, setFilter] = useState();
+const ContactList = () => {
+  const isLoading = useSelector(getIsLoading);
+  const state = useSelector(getTtlState);
+  const myList = useSelector(filteredList);
+  const contactList = useSelector(getConctactList);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem('contacts')) {
-      const listLS = localStorage.getItem('contacts');
-      getContactFromLS(JSON.parse(listLS));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (contacts.length <= 2) {
-      filterHndl('');
-    }
-  }, [contacts.length]);
+    dispatch(filterClear());
+  }, [contactList.length < 2]);
 
   const onFilterChng = e => {
-    filterHndl(e.target.value);
+    dispatch(filterHndl(e.target.value));
   };
 
   const onDeletBtn = e => {
-    deletBtnHndl(e.target.id);
+    dispatch(deleteContactById(e.target.id));
   };
 
   return (
     <>
-      {contacts.length > 2 && (
+      {contactList.length > 2 && (
         <label className={label}>
           Search name:
           <input
@@ -66,8 +65,17 @@ const ContactList = ({
       )}
 
       <h2 className={title}>Contact list </h2>
+      {isLoading && (
+        <Loader
+          type="TailSpin"
+          color="#00BFFF"
+          height={30}
+          width={30}
+          className={loader}
+        />
+      )}
       <TransitionGroup component="ul" className={list}>
-        {showList.map(({ id, name, phone }) => (
+        {myList.map(({ id, name, phone }) => (
           <CSSTransition timeout={250} classNames={fadeStyle} key={id}>
             <li className={listItem}>
               <span className={nameItem}>{name} :</span>
@@ -88,22 +96,4 @@ const ContactList = ({
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    showList: state.contactList.filter(item =>
-      item.name.toLowerCase().includes(state.filter.toLowerCase()),
-    ),
-    filter: state.filter,
-    contacts: state.contactList,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    filterHndl: search => dispatch(filterHndl(search)),
-    deletBtnHndl: dltId => dispatch(deletBtnHndl(dltId)),
-    getContactFromLS: listLS => dispatch(getContactFromLS(listLS)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+export default ContactList;
