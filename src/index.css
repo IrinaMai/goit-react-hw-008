@@ -76,6 +76,7 @@ button,
 textarea,
 select {
   font: inherit;
+  color: inherit;
 }
 #root{
   width: 500px;

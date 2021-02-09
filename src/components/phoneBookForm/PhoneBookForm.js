@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import { addContactToDB } from '../../redux/operations/phBookOperation';
-import {
-  getConctactList,
-  getError,
-} from '../../redux/selectors/phBookSelectors';
-import { setError } from '../../redux/actions/phoneBookAction';
+
 import {
   title,
   button,
@@ -16,6 +11,12 @@ import {
   alertMessage,
 } from './PhoneBookForm.module.css';
 import fadeStyled from './fade.module.css';
+import { setError } from '../../redux/actions/phoneBookAction';
+import { addContactToDB } from '../../redux/operations/phBookOperation';
+import {
+  getError,
+  getConctactList,
+} from '../../redux/selectors/phBookSelectors';
 
 const initialState = {
   name: '',

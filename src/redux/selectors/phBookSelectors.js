@@ -1,11 +1,11 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-const getConctactList = state => state.contactList;
-const getFilter = state => state.filter;
-const getIsLoading = state => state.isLoading;
-const getError = state => state.error;
+const getConctactList = state => state.phoneBook.contactList;
+const getFilter = state => state.phoneBook.filter;
+const getIsLoading = state => state.phoneBook.isLoading;
+const getError = state => state.phoneBook.error;
 
-const getTtlState = state => state;
+const getTtlState = state => state.phonebook;
 
 const filteredList = createSelector(
   [getConctactList, getFilter],

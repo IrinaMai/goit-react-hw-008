@@ -1,10 +1,10 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { phBookReducer } from './reducers/phonebookReducer';
+import rootReducer from './reducers/rootReducer';
 
 const defaultMiddleware = getDefaultMiddleware();
 
 const store = configureStore({
-  reducer: phBookReducer,
+  reducer: rootReducer,
   middleware: [...defaultMiddleware],
 });
 
