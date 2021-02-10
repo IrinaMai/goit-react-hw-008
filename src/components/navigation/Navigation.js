@@ -1,42 +1,39 @@
 import React, { Suspense } from 'react';
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getIsAuth } from '../../redux/selectors/registrationSelector';
+import { navigationList, navigationDiv } from './Navigation.module.css';
+import NavigationItem from './NavigationItem';
 import { mainRoutes } from '../../routes/mainRoutes';
-import {
-  activeNavigation,
-  navigation,
-  navigationList,
-  navigationDiv,
-} from './Navigation.module.css';
+import PrivateRoute from '../routes/PrivateRoute';
+import PublicRoute from '../routes/PublicRoute';
+import LogOut from '../logOut/LogOut';
 
 const Navigation = () => {
+  const isAuth = useSelector(getIsAuth);
   return (
     <>
       <div className={navigationDiv}>
         <ul className={navigationList}>
           {mainRoutes.map(item => (
-            <li key={item.path}>
-              <NavLink
-                to={item.path}
-                exact={item.exact}
-                className={navigation}
-                activeClassName={activeNavigation}
-              >
-                {item.name.toUpperCase()}
-              </NavLink>
-            </li>
+            <NavigationItem {...item} isAuth={isAuth} key={item.path} />
           ))}
+          {isAuth && (
+            <li>
+              <LogOut />
+            </li>
+          )}
         </ul>
       </div>
       <Suspense fallback={<h2>...Loading</h2>}>
         <Switch>
-          {mainRoutes.map(item => (
-            <Route
-              path={item.path}
-              key={item.path}
-              component={item.component}
-              exact={item.exact}
-            />
-          ))}
+          {mainRoutes.map(route =>
+            route.isPrivate ? (
+              <PrivateRoute {...route} isAuth={isAuth} key={route.path} />
+            ) : (
+              <PublicRoute {...route} isAuth={isAuth} key={route.path} />
+            ),
+          )}
         </Switch>
       </Suspense>
     </>

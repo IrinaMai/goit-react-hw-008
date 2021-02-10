@@ -50,7 +50,7 @@ const PhoneBookForm = () => {
       }, 1500);
       return;
     }
-    if (contactList.find(({ phone }) => phone == contact.phone)) {
+    if (contactList.find(({ phone }) => phone === contact.phone)) {
       dispatch(setError('This phone belongs another contact'));
       setTimeout(() => {
         dispatch(setError(''));

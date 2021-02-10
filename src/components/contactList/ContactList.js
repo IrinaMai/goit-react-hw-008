@@ -30,6 +30,7 @@ const ContactList = () => {
 
   useEffect(() => {
     dispatch(filterClear());
+    // eslint-disable-next-line
   }, [contactList.length <= 2]);
 
   const onFilterChng = e => {

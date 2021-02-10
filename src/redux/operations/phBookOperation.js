@@ -7,11 +7,17 @@ import {
   setError,
 } from '../actions/phoneBookAction';
 
-const addContactToDB = contact => dispatch => {
+const addContactToDB = contact => (dispatch, getState) => {
+  const token = getState().registration.idToken;
+  const userId = getState().registration.localId;
+  // axios.defaults.headers.common['Authorization'] = token;
   dispatch(loading());
 
   axios
-    .post(`${process.env.REACT_APP_BASE_URL}contacts.json`, contact)
+    .post(
+      `${process.env.REACT_APP_BASE_URL}contacts/${userId}.json?auth=${token}`,
+      contact,
+    )
     .then(response => {
       dispatch(addContactSuccess({ ...contact, id: response.data.name }));
     })
@@ -24,10 +30,14 @@ const addContactToDB = contact => dispatch => {
     .finally(() => dispatch(loading()));
 };
 
-const getContactsFromDB = () => dispatch => {
+const getContactsFromDB = () => (dispatch, getState) => {
+  const token = getState().registration.idToken;
+  const userId = getState().registration.localId;
   dispatch(loading());
   axios
-    .get(`${process.env.REACT_APP_BASE_URL}contacts.json`)
+    .get(
+      `${process.env.REACT_APP_BASE_URL}contacts/${userId}.json?auth=${token}`,
+    )
     .then(response => {
       dispatch(
         getContactSuccess(
@@ -47,11 +57,15 @@ const getContactsFromDB = () => dispatch => {
     .finally(() => dispatch(loading()));
 };
 
-const deleteContactById = id => dispatch => {
+const deleteContactById = id => (dispatch, getState) => {
+  const token = getState().registration.idToken;
+  const userId = getState().registration.localId;
   dispatch(loading());
 
   axios
-    .delete(`${process.env.REACT_APP_BASE_URL}contacts/${id}.json`)
+    .delete(
+      `${process.env.REACT_APP_BASE_URL}contacts/${userId}/${id}.json?auth=${token}`,
+    )
     .then(() => dispatch(deleteContactSuccess(id)))
     .catch(error => dispatch(setError('ooops samthing going wrong')))
     .then(

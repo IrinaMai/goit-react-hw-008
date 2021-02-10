@@ -7,7 +7,7 @@ import { registrationReducer } from './registrationReducer';
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['email', 'idToken', 'refreshToken', 'isAuth', 'localId'],
+  whitelist: ['email', 'idToken', 'isAuth', 'localId'],
 };
 
 const rootReducer = combineReducers({

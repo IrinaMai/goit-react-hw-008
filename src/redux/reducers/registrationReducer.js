@@ -21,9 +21,14 @@ export const registrationReducer = createReducer(
   {
     [registrationAction]: (state, action) => ({
       ...state,
-      ...action.payload,
+      email: action.payload.email,
+      idToken: action.payload.idToken,
+      refreshToken: action.payload.refreshToken,
+      isAuth: true,
+      localId: action.payload.localId,
     }),
     [loading]: state => ({ ...state, isLoading: !state.isLoading }),
     [setError]: (state, action) => ({ ...state, error: action.payload }),
+    [logOut]: state => ({ ...initialState }),
   },
 );
